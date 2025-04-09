@@ -7,6 +7,13 @@ public class User {
     private String email;
     private Timestamp createdAt;
 
+    public User(int id, String name, String email, Timestamp createdAt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.createdAt = createdAt;
+    }
+
     // getters
     public int getId() {
         return id;
@@ -39,5 +46,15 @@ public class User {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
