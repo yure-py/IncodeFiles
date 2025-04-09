@@ -2,6 +2,7 @@ package org.example.Study.DAO.Ex1.DAO;
 
 import org.example.Study.Connection.Pool;
 import org.example.Study.DAO.Ex1.DTO.User;
+import org.example.Study.DAO.Ex1.DatabaseUtils.Utils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,22 +13,22 @@ import java.util.List;
 
 public class UserDAO_impl implements UserDAO {
     Connection connection = Pool.getConnection();
-    Statement stmt;
 
+    private final String TB_NAME = "Users";
 
-    String selectAll = "Select * FROM Users";
-
-    public UserDAO_impl() {
-        try {
-            stmt = connection.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error ao inicializar! " + e);
-        }
-    }
+    // -------- SQLs --------
+    String selectAll = "Select * FROM " + TB_NAME;
+    String insert = String.format("""
+            INSERT INTO %s (id, name, email, timestamp)
+            VALUES (default, ?, ?, default)
+            """, TB_NAME);
+    // -------- END --------
 
     @Override
     public List<User> getAllUsers() {
-        try {
+        try (
+            Statement stmt = connection.createStatement()
+        ) {
             List<User> results = new ArrayList<>();
 
             ResultSet result = stmt.executeQuery(selectAll);
